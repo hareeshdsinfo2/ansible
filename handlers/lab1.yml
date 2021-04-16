@@ -1,0 +1,21 @@
+- hosts: websrvgrp
+  become: yes
+  tasks:
+  - name: installing the apache webserver
+    apt: name=apache2 state=latest
+
+  - name: copy the website file
+    copy: src=k8s dest=/opt/
+    notify:
+      - Apache Restart
+  handlers:
+  - name: Apache Restart
+    service: name=apache2 state=restarted
+
+
+ # - name: create the directory in the remote machine
+ # file: path=/opt/k8s/ state=directory
+ # - name: create a file in the remote directory
+ #   file: path=/opt/k8s/devops state=touch
+ ## - name: restart the apache server
+ #   service: name=apache2 enabled=yes state=started

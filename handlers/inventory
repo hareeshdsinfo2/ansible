@@ -1,0 +1,14 @@
+web ansible_host=172.31.54.112 
+app ansible_host=172.31.51.107 
+db  ansible_host=172.31.60.187
+
+[websrvgrp]
+web
+app
+
+[dbsrvgrp]
+db
+
+[mydc:children]
+websrvgrp
+dbsrvgrp
