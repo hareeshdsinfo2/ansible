@@ -1,0 +1,42 @@
+---
+- hosts: mydc
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Install the apache2 on the websrvgroup
+      apt:
+        name: apache2
+        state: present
+    - name: start the apache service
+      service:
+        name: apache2
+        state: stopped
+    - name: installing the my sql server
+      apt:
+        name: mysql-server
+        state: absent
+    - name: start the mysql server
+      service:
+        name: mysql
+        state: started
+    - name: mysql-python need to be installed in the DB
+      apt:
+       name: python-mysqldb
+       state: present
+    - name: create DB in the mysql server
+      mysql_db:
+        name: k8s
+        state: present
+    - name: create the user in the database
+      mysql_user:
+        name: k8s
+        password: harish@123
+        priv: '*.*:ALL'
+        state: present
+
+
+
+
+
+
